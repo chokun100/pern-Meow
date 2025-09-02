@@ -24,7 +24,7 @@ app.use(helmet({
 app.use(morgan("dev")); //logging middleware to console
 
 // apply arcjet rate-limit to all routes
-
+// middleware globally
 app.use(async (req, res, next) => {
     try {
         const decision = await aj.protect(req, {
@@ -52,6 +52,10 @@ app.use(async (req, res, next) => {
         console.log("ERROR in arcjet middleware", error);
         next(error);
     }
+});
+
+app.get("/greet", (req, res) => {
+    res.send("Hello from the backend!");
 });
 
 app.use("/api/products", productRoutes)
